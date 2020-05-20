@@ -12,6 +12,7 @@ export default class ProductList extends React.Component {
     };
 
     this.getProducts = this.getProducts.bind(this);
+
   }
 
   getProducts() {
@@ -29,13 +30,24 @@ export default class ProductList extends React.Component {
   render() {
 
     return (
-      <div>
-        <div className="container">
-          <div className="row">
-            <ProductListItem products={this.state.products}/>
-          </div>
+
+      <div className="container">
+        <div className="row">
+          {
+            this.state.products.map(eachProduct => {
+              const { productId, image, name, shortDescription } = eachProduct;
+
+              const dividedPrice = eachProduct.price / 100;
+
+              return <div key={productId} className="col-lg-3 ml-4" >
+                <ProductListItem setView={this.props.setView} productId={productId} image={image} name={name} price={dividedPrice} shortDescription={shortDescription}/>
+              </div>;
+
+            })
+          }
         </div>
       </div>
+
     );
 
   }

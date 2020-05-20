@@ -2,31 +2,21 @@ import React from 'react';
 import numeral from 'numeral';
 
 export default class ProductListItem extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = null;
-  }
 
   render() {
 
-    return this.props.products.map(eachProduct => {
+    const handleCatalogClick = () => this.props.setView('details', this.props.productId);
 
-      const dividedPrice = eachProduct.price / 100;
-
-      return (
-        <div key={eachProduct.productId}>
-          <div className="card ml-4 mt-3" style={ { width: '18rem' } }>
-            <img src={eachProduct.image} className="card-img-top" alt="image of each product"/>
-            <div className="card-body">
-              <h6 className="card-title">{eachProduct.name}</h6>
-              <p>{numeral(dividedPrice).format('$0.00')}</p>
-              <p className="card-text">{eachProduct.shortDescription}</p>
-            </div>
-          </div>
+    return (
+      <div onClick={handleCatalogClick} className="card ml-4 mt-3 product-item" style={ { width: '18rem' } }>
+        <img src={this.props.image} className="card-img-top product-item" alt="image of each product"/>
+        <div className="card-body">
+          <h6 className="card-title">{this.props.name}</h6>
+          <p>{numeral(this.props.price).format('$0.00')}</p>
+          <p className="card-text product-item">{this.props.shortDescription}</p>
         </div>
-      );
+      </div>
+    );
 
-    });
   }
 }
