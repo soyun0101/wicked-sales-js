@@ -1,0 +1,27 @@
+.header{
+    background-color: black;
+}
+
+.header h1{
+    color: white;
+    margin-left: 100px;
+}
+
+.product-item .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: scale-down;
+}
+
+.product-item .card-text{
+    font-size: .8rem;
+}
+
+.product-item .card{
+    height: 400px;
+}
+
+.card-size{
+    width: '550px';
+    height: '100%'
+}
