@@ -54,6 +54,57 @@ app.get('/api/products/:productId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/cart', (req, res, next) => {
+
+  const sqlCart = `
+  `;
+
+  db.query(sqlCart)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+
+});
+
+app.post('/api/cart/:productId', (req, res, next) => {
+
+  const { productId } = req.params;
+
+  if (productId > 0) {
+    const sqlCart = `
+      SELECT "price"
+        FROM "products"
+      WHERE "products"."productId" = ${productId};
+      `;
+
+    db.query(sqlCart)
+      .then(result => {
+        if (!result.rows[0]) {
+          res.status(400).json(new ClientError('no results listed for the id provided'));
+        } else {
+          const sqlInsertId = `
+            insert into "carts" ("cartId", "createdAt")
+            values (default, default)
+            returning "cartId"
+           `;
+
+          db.query(sqlInsertId)
+            .then(cartIdResult => {
+              res.status(200).json({
+                cartId: cartIdResult.rows[0].cartId,
+                price: result.rows[0].price
+              });
+            });
+        }
+      })
+      .then()
+      .then()
+      .catch(err => next(err));
+
+  }
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
